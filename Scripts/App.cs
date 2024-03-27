@@ -12,18 +12,16 @@ public class App : MonoBehaviour
         App,
         Title,
         Outpost,
-        OutpostTuto,
-        BattleField,
-        BattleFieldTuto,
+        BattleField
     }
 
-    private eSceneType state; //ÇöÀç ¾À
+    private eSceneType state; //í˜„ì¬ ì”¬
 
-    public bool isNewbie; //´ººñ Ã¼Å©
+    public bool isNewbie; //ë‰´ë¹„ ì²´í¬
 
-    public GameObject LoadingSources; //·ÎµùÃ¢
-    public Image imgProgressBar; //·Îµù¹Ù
-    private AsyncOperation op; //·Îµù ºñµ¿±â ÀÛ¾÷
+    public GameObject LoadingSources; //ë¡œë”©ì°½
+    public Image imgProgressBar; //ë¡œë”©ë°”
+    private AsyncOperation op; //ë¡œë”© ë¹„ë™ê¸° ì‘ì—…
 
     private void Awake()
     {
@@ -32,23 +30,23 @@ public class App : MonoBehaviour
 
     void Start()
     {
-        //ÀÎº¥Åä¸® µ¥ÀÌÅÍ ·Îµå
+        //ì¸ë²¤í† ë¦¬ ë°ì´í„° ë¡œë“œ
         DataManager.instance.LoadInventoryData();
 
         Debug.Log(Application.persistentDataPath);
 
         string playerPath = InfoManager.instance.playerPath; 
 
-        if (!InfoManager.instance.IsNewbie(playerPath)) //´ººñ Ã¼Å©
+        if (!InfoManager.instance.IsNewbie(playerPath)) //ë‰´ë¹„ ì²´í¬
         {
-            //±âÁ¸ À¯Àú
-            Debug.Log("<color=yellow>±âÁ¸À¯Àú</color>");
+            //ê¸°ì¡´ ìœ ì €
+            Debug.Log("<color=yellow>ê¸°ì¡´ìœ ì €</color>");
 
-            //ÇÃ·¹ÀÌ¾î ÀúÀå µ¥ÀÌÅÍ ·Îµå
+            //í”Œë ˆì´ì–´ ì €ì¥ ë°ì´í„° ë¡œë“œ
             InfoManager.instance.LoadPlayerInfo();
-            //ÀÎº¥Åä¸® ÀúÀå µ¥ÀÌÅÍ ·Îµå
+            //ì¸ë²¤í† ë¦¬ ì €ì¥ ë°ì´í„° ë¡œë“œ
             InfoManager.instance.LoadInventoryInfo();
-            //ÀüÃÊ±âÁö ÀúÀå µ¥ÀÌÅÍ ·Îµå
+            //ì „ì´ˆê¸°ì§€ ì €ì¥ ë°ì´í„° ë¡œë“œ
             InfoManager.instance.LoadOutPostInfo();
 
             this.isNewbie = false;
@@ -57,20 +55,20 @@ public class App : MonoBehaviour
         {
             this.isNewbie = true;
 
-            //½Å±Ô À¯Àú
-            Debug.Log("<color=yellow>½Å±ÔÀ¯Àú</color>");
+            //ì‹ ê·œ ìœ ì €
+            Debug.Log("<color=yellow>ì‹ ê·œìœ ì €</color>");
 
-            //ÇÃ·¹ÀÌ¾î ÀÎÆ÷ »ı¼º
+            //í”Œë ˆì´ì–´ ì¸í¬ ìƒì„±
             InfoManager.instance.PlayerInfo = new PlayerInfo();
-            //ÇÃ·¹ÀÌ¾î ÀÎÆ÷ ÀúÀå
+            //í”Œë ˆì´ì–´ ì¸í¬ ì €ì¥
             InfoManager.instance.SavePlayerInfo();
 
-            //ÀÎº¥Åä¸® »ı¼º°ú ÀúÀå
+            //ì¸ë²¤í† ë¦¬ ìƒì„±ê³¼ ì €ì¥
             InfoManager.instance.InventoryInfoInit();
 
-            //ÀüÃÊ±âÁö ÀÎÆ÷ »ı¼º
+            //ì „ì´ˆê¸°ì§€ ì¸í¬ ìƒì„±
             InfoManager.instance.OutPostInfos = new OutPostInfo();
-            //ÀüÃÊ±âÁö ÀÎÆ÷ ÀúÀå
+            //ì „ì´ˆê¸°ì§€ ì¸í¬ ì €ì¥
             InfoManager.instance.SaveOutPostInfo();
 
 
@@ -78,51 +76,41 @@ public class App : MonoBehaviour
 
         this.state = eSceneType.Title;
 
-        this.ChangeScene(this.state); //Å¸ÀÌÆ²·Î ¾À ÀüÈ¯
+        this.ChangeScene(this.state); //íƒ€ì´í‹€ë¡œ ì”¬ ì „í™˜
 
     }
 
-    void ChangeToOutPost(short type) //ÀüÃÊ±âÁö·Î ¾À ÀüÈ¯ ÀÌº¥Æ®
+    void ChangeToOutPost(short type) //ì „ì´ˆê¸°ì§€ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸
     {
         this.state = eSceneType.Outpost;
         this.ChangeScene(this.state);
     }
-    void ChangeToOutPostTuto(short type)
-    {
-        this.state = eSceneType.OutpostTuto;
-        this.ChangeScene(this.state);
-    }
 
-    void ChangeToBattleField(short type) //ÀüÅõÀåÀ¸·Î ¾À ÀüÈ¯ ÀÌº¥Æ®
+    void ChangeToBattleField(short type) //ì „íˆ¬ì¥ìœ¼ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸
     {
         this.state = eSceneType.BattleField;
         this.ChangeScene(this.state);
     }
 
-    void ChangeToBattleFieldTuto(short type)
-    {
-        this.state = eSceneType.BattleFieldTuto;
-        this.ChangeScene(this.state);
-    }
-    public void ChangeScene(eSceneType sceneType) //¾À ÀüÈ¯ ¸Ş¼­µå
+    public void ChangeScene(eSceneType sceneType) //ì”¬ ì „í™˜ ë©”ì„œë“œ
     {
         switch (sceneType)
         {
             case eSceneType.Title:
                 var titleOper = SceneManager.LoadSceneAsync("Title");
 
-                //·ÎµùÃ¢
+                //ë¡œë”©ì°½
                 this.op = titleOper;
                 StartCoroutine(this.LoadScene());
 
                 titleOper.completed += (obj) =>
                 {
-                    this.imgProgressBar.fillAmount = 0; //·Îµù¹Ù ÃÊ±âÈ­
-                    this.LoadingSources.SetActive(false); //·ÎµùÃ¢ ºñÈ°¼ºÈ­
+                    this.imgProgressBar.fillAmount = 0; //ë¡œë”©ë°” ì´ˆê¸°í™”
+                    this.LoadingSources.SetActive(false); //ë¡œë”©ì°½ ë¹„í™œì„±í™”
 
-                    //ÀüÃÊ±âÁö·Î ¾À ÀüÈ¯ ÀÌº¥Æ® Áßº¹ Á¦°Å
+                    //ì „ì´ˆê¸°ì§€ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸ ì¤‘ë³µ ì œê±°
                     EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
-                    //ÀüÃÊ±âÁö·Î ¾À ÀüÈ¯ ÀÌº¥Æ® µî·Ï
+                    //ì „ì´ˆê¸°ì§€ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸ ë“±ë¡
                     EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
 
                     EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToOutPostTuTo, ChangeToOutPostTuto);
@@ -133,95 +121,60 @@ public class App : MonoBehaviour
             case eSceneType.Outpost:
                 var outPostOper = SceneManager.LoadSceneAsync("Outpost");
 
-                //·ÎµùÃ¢
+                //ë¡œë”©ì°½
                 this.op = outPostOper;
                 StartCoroutine(this.LoadScene());
 
                 outPostOper.completed += (obj) =>
                 {   
-                    if(this.imgProgressBar != null) //³Î Ã¼Å©
+                    if(this.imgProgressBar != null) //ë„ ì²´í¬
                     {
-                        this.imgProgressBar.fillAmount = 0; //·Îµù¹Ù ÃÊ±âÈ­
+                        this.imgProgressBar.fillAmount = 0; //ë¡œë”©ë°” ì´ˆê¸°í™”
 
                     }
-                    if (this.LoadingSources != null) //³Î Ã¼Å©
+                    if (this.LoadingSources != null) //ë„ ì²´í¬
                     {
-                        this.LoadingSources.SetActive(false); //·ÎµùÃ¢ ºñÈ°¼ºÈ­
+                        this.LoadingSources.SetActive(false); //ë¡œë”©ì°½ ë¹„í™œì„±í™”
                     }
 
-                    //ÀüÅõÀåÀ¸·Î ¾À ÀüÈ¯ ÀÌº¥Æ® Áßº¹ Á¦°Å
+                    //ì „íˆ¬ì¥ìœ¼ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸ ì¤‘ë³µ ì œê±°
                     EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToBattleField, ChangeToBattleField);
-                    //ÀüÅõÀåÀ¸·Î ¾À ÀüÈ¯ ÀÌº¥Æ® µî·Ï
+                    //ì „íˆ¬ì¥ìœ¼ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸ ë“±ë¡
                     EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToBattleField, ChangeToBattleField);
-                };
-                break;
-
-            case eSceneType.OutpostTuto:
-                var outPostTutoOper = SceneManager.LoadSceneAsync("OutpostTuto");
-
-                //·ÎµùÃ¢
-                this.op = outPostTutoOper;
-                StartCoroutine(this.LoadScene());
-
-                outPostTutoOper.completed += (obj) =>
-                {
-                    this.imgProgressBar.fillAmount = 0;
-                    this.LoadingSources.SetActive(false);
-
-                    EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToBattleFieldTuto, ChangeToBattleFieldTuto);
-                    EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToBattleFieldTuto, ChangeToBattleFieldTuto);
                 };
                 break;
 
             case eSceneType.BattleField:
                 var battleFieldOper = SceneManager.LoadSceneAsync("BattleField");
 
-                //·ÎµùÃ¢
+                //ë¡œë”©ì°½
                 this.op = battleFieldOper;
                 StartCoroutine(this.LoadScene());
 
                 battleFieldOper.completed += (obj) =>
                 {
-                    this.imgProgressBar.fillAmount = 0; //·Îµù¹Ù ÃÊ±âÈ­
-                    this.LoadingSources.SetActive(false); //·ÎµùÃ¢ ºñÈ°¼ºÈ­
+                    this.imgProgressBar.fillAmount = 0; //ë¡œë”©ë°” ì´ˆê¸°í™”
+                    this.LoadingSources.SetActive(false); //ë¡œë”©ì°½ ë¹„í™œì„±í™”
 
                     var battleFieldMain = GameObject.FindObjectOfType<BattleFieldMain>();
                     battleFieldMain.Init();
 
-                    //ÀüÃÊ±âÁö·Î ¾À ÀüÈ¯ ÀÌº¥Æ® Áßº¹Á¦°Å
+                    //ì „ì´ˆê¸°ì§€ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸ ì¤‘ë³µì œê±°
                     EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
-                    //ÀüÃÊ±âÁö·Î ¾À ÀüÈ¯ ÀÌº¥Æ® µî·Ï
+                    //ì „ì´ˆê¸°ì§€ë¡œ ì”¬ ì „í™˜ ì´ë²¤íŠ¸ ë“±ë¡
                     EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
                 };
                 break;
-
-            case eSceneType.BattleFieldTuto:
-                var battleFieldOperTuto = SceneManager.LoadSceneAsync("BattleFieldTuto");
-
-                //·ÎµùÃ¢
-                this.op = battleFieldOperTuto;
-                StartCoroutine(this.LoadScene());
-
-                battleFieldOperTuto.completed += (obj) =>
-                {
-                    this.imgProgressBar.fillAmount = 0;
-                    this.LoadingSources.SetActive(false);
-
-                    EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
-                    EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
-                };
-                break;
-
-
+           
         }
     }
-    IEnumerator LoadScene() //·ÎµùÃ¢, ·Îµù¹Ù ±¸Çö ÄÚ·çÆ¾
+    IEnumerator LoadScene() //ë¡œë”©ì°½, ë¡œë”©ë°” êµ¬í˜„ ì½”ë£¨í‹´
     {
         yield return null;
-        this.LoadingSources.SetActive(true); //·ÎµùÃ¢ È°¼ºÈ­
-        op.allowSceneActivation = false; //¾À 90%¸¸ ·Îµå
+        this.LoadingSources.SetActive(true); //ë¡œë”©ì°½ í™œì„±í™”
+        op.allowSceneActivation = false; //ì”¬ 90%ë§Œ ë¡œë“œ
         float timer = 0.0f; 
-        while (!op.isDone) //¾À ·Îµù ¿Ï·áµÇ±â Àü±îÁö
+        while (!op.isDone) //ì”¬ ë¡œë”© ì™„ë£Œë˜ê¸° ì „ê¹Œì§€
         {
             yield return null;
             timer += Time.deltaTime;
