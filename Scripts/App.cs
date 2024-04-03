@@ -112,9 +112,7 @@ public class App : MonoBehaviour
                     EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
                     //전초기지로 씬 전환 이벤트 등록
                     EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToOutPost, ChangeToOutPost);
-
-                    EventDispatcher.instance.RemoveEventHandler((int)EventEnum.eEventType.ChangeToOutPostTuTo, ChangeToOutPostTuto);
-                    EventDispatcher.instance.AddEventHandler((int)EventEnum.eEventType.ChangeToOutPostTuTo, ChangeToOutPostTuto);
+                    
                 };
                 break;
 
